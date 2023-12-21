@@ -1,11 +1,10 @@
-import { Container, Stack, Typography,Box, IconButton, BottomNavigation, BottomNavigationAction } from '@mui/material'
+import { Container, Stack, Typography, Box, IconButton, BottomNavigation, BottomNavigationAction } from '@mui/material'
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import React, { useState } from 'react';
 import moviedata from './StaticData';
 import DownloadIcon from '@mui/icons-material/Download';
 import MovieIcon from '@mui/icons-material/Movie';
-import HomeIcon from '@mui/icons-material/Movie';
-import { red } from '@mui/material/colors';
+// import HomeIcon from '@mui/icons-material/Movie';
 
 
 function Movie() {
@@ -13,7 +12,8 @@ function Movie() {
   // const [state2, setState2] = useState();
   // const [iconColor, setIconColor] = useState('primary');
   const [color, setColor] = useState(false)
-
+  const [key, setKey] = useState(null);
+  console.log(moviedata)
   // function handleClick(){
   //   if(iconColor === 'primary') {
   //     setIconColor('red');
@@ -21,32 +21,37 @@ function Movie() {
   //     setIconColor('primary');
   //   };
   // }
+  function handleClick(index) { }
 
+  const handleRedirect = () => {
+    window.location.href = 'https://www.netflix.com'; 
+  };
 
-  function handleClick(){
-    setColor(!color)
-    
-  }
 
   console.log("🚀 ~ file: Movie.jsx:4 ~ Movie ~ pr̥op:")
   return (
-    <Box sx={{border:"2px solid black",height:"600px", width:"400px", backgroundColor:"#ACDDDE",position:"relative",overflow:"hidden"}}>
-      <Box sx={{width:"100%"}}>
-        <img src={moviedata[0].Poster} style={{height:"280px",width:"100%"}}></img>
-        </Box>
-        <Typography sx={{fontSize:"30px"}}>{moviedata[0].Title}</Typography>
-        <Container>{moviedata[0].Plot}</Container>
-        <Stack mt={4} spacing={0.5} >
-          <Stack direction={"row"} justifyContent={"space-between"} padding={"0px 20px"}>
-            <Typography>{moviedata[0].Released}</Typography>
-            <Typography>{moviedata[0].Runtime}</Typography> 
-          </Stack>
-          <Stack direction={"row"} justifyContent={"space-between"} padding={"0px 20px"}>
-            <Typography>{moviedata[0].Genre}</Typography>
-            <Typography>{moviedata[0].Rated}</Typography>
-          </Stack>
-        </Stack>
-        {/* <Stack direction={"row"} justifyContent={"space-around"} marginTop={"50px"}>
+    <>
+      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-around" }}>
+        {
+          moviedata.map((item, i) => {
+            return (
+              <Box key={i} sx={{ border: "2px solid black", height: "600px", width: "400px", backgroundColor: "#ACDDDE", position: "relative", overflow: "hidden", margin: "20px" }}>
+                <Box >
+                  <img src={item.Poster} style={{ height: "280px", width: "100%" }}></img>
+                </Box>
+                <Typography sx={{ fontSize: "30px" }}>{item.Title}</Typography>
+                <Container>{item.Plot}</Container>
+                <Stack mt={4} spacing={0.5} >
+                  <Stack direction={"row"} justifyContent={"space-between"} padding={"0px 20px"}>
+                    <Typography>{item.Released}</Typography>
+                    <Typography>{item.Runtime}</Typography>
+                  </Stack>
+                  <Stack direction={"row"} justifyContent={"space-between"} padding={"0px 20px"}>
+                    <Typography>{item.Genre}</Typography>
+                    <Typography>{item.Rated}</Typography>
+                  </Stack>
+                </Stack>
+                {/* <Stack direction={"row"} justifyContent={"space-around"} marginTop={"50px"}>
           <IconButton>
             <Typography>Watch Now</Typography>
           </IconButton>
@@ -58,15 +63,27 @@ function Movie() {
           </IconButton>
          
         </Stack> */}
-      <BottomNavigation sx={{position:"absolute",bottom:0,width:"100%"}}>
-        <BottomNavigationAction label='Watch Now' icon={<MovieIcon />} ></BottomNavigationAction>
-        <BottomNavigationAction label='favorite' icon={<FavoriteIcon />} 
-        sx={{color:`${color && `red`}`}}
-         onClick={handleClick}></BottomNavigationAction>
-        <BottomNavigationAction label='Download' icon={<DownloadIcon />}> </BottomNavigationAction>
-      </BottomNavigation>
+                <BottomNavigation sx={{ position: "absolute", bottom: 0, width: "100%" }}>
 
-    </Box>
+                  <BottomNavigationAction
+                    label='Watch Now'
+                    icon={<MovieIcon />}
+                    onClick={handleRedirect}
+                  ></BottomNavigationAction>
+
+                  {console.log(color, key, i)}
+                  <BottomNavigationAction label='favorite' icon={<FavoriteIcon />}
+                  ></BottomNavigationAction>
+                  <BottomNavigationAction label='Download' icon={<DownloadIcon />} onClick={handleRedirect}> </BottomNavigationAction>
+                </BottomNavigation>
+
+              </Box>
+            )
+          })
+        }
+      </div>
+    </>
+
   )
 }
 

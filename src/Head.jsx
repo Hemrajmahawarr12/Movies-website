@@ -77,7 +77,7 @@ function Head() {
                     )}
                 </Toolbar>
             </AppBar>
-            <Box sx={{height:"100vh", width:"100vw",overflow:"hidden",backgroundColor:"black"}}>
+            <Box sx={{height:"100vh", width:"100%"  ,overflow:"hidden",backgroundColor:"black"}}>
                 
                 <img style={{height:"100%", width:"100%", opacity:0.6}} src={poster} alt="poster"></img>
             </Box>
