@@ -7,8 +7,7 @@ import {
     useMediaQuery,
     useTheme,
     Stack,
-    IconButton,
-    Box
+    IconButton
 } from "@mui/material";
 // import App from "./App";
 import TheatersIcon from "@mui/icons-material/Theaters";
@@ -16,13 +15,10 @@ import DraComp from "./DraComp";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import poster from "../src/Images/moviePoster.jpg";
-// import { Link } from "@mui/icons-material";
-
-// import MovieContainer from "../src/Component/MovieContainer";
 import { useNavigate } from "react-router-dom";
-export const Head = ()=> {
-
-    const navigate = useNavigate();
+const NavBar = () => {
+    
+    const navigate = useNavigate;
     const [value, setValue] = useState();
     const theme = useTheme();
     const IsMatch = useMediaQuery(theme.breakpoints.down("md"));
@@ -32,11 +28,10 @@ export const Head = ()=> {
     const handleHolly = ()=> {
         navigate("/hollywood")
     }
-   
-    console.log(IsMatch);
-    return (
-        <>
-            <AppBar>
+  return (
+    <div>
+        
+        <AppBar>
                 <Toolbar  sx={{ display:"flex",justifyContent:"space-between"}}>
                {IsMatch ? (
                         <>
@@ -93,13 +88,9 @@ export const Head = ()=> {
                     )}
                 </Toolbar>
             </AppBar>
-            <Box sx={{height:"100vh", width:"100%"  ,overflow:"hidden",backgroundColor:"black"}}>
-                
-                <img style={{height:"100%", width:"100%", opacity:0.6}} src={poster} alt="poster"></img>
-            </Box>
-            
-        </>
-    );
+      
+    </div>
+  )
 }
 
-
+export default NavBar
