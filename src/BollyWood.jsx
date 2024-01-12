@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Head } from "./Head";
 import { Container, Stack, Typography, Box } from '@mui/material'
+import photo from '../src/Images/bImage.jpg'
 // import FavoriteIcon from "@mui/icons-material/Favorite";
 // import React, { useState } from 'react';
 // import moviedata from './StaticData';
@@ -28,7 +29,7 @@ function BollyWood() {
     
         return(
       
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-around" }}>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-around",backgroundImage:`url(${photo})`,width:"100%",height:"100%"}}>
         { 
           data.map((item) => {
             return (

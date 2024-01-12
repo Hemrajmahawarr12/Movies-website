@@ -18,16 +18,16 @@ import poster from "../src/Images/moviePoster.jpg";
 import { useNavigate } from "react-router-dom";
 const NavBar = () => {
     
-    const navigate = useNavigate;
+    // const navigate = useNavigate;
     const [value, setValue] = useState();
     const theme = useTheme();
     const IsMatch = useMediaQuery(theme.breakpoints.down("md"));
-    const handleBolly = ()=> {
-        navigate("/bollywood")
-    }
-    const handleHolly = ()=> {
-        navigate("/hollywood")
-    }
+    // const handleBolly = ()=> {
+    //     navigate("/bollywood")
+    // }
+    // const handleHolly = ()=> {
+    //     navigate("/hollywood")
+    // }
   return (
     <div>
         
@@ -70,11 +70,11 @@ const NavBar = () => {
                                     }}
                                     />
                                     <Stack flexDirection={"row"}>
-                                    <Typography onClick={handleBolly} sx={{cursor:"pointer",marginLeft:"70px",fontSize: "25px",
+                                    <Typography  sx={{cursor:"pointer",marginLeft:"70px",fontSize: "25px",
                                         marginTop: "5px"}}>BollyWood</Typography>
                                         
 
-                                    <Typography onClick={handleHolly} sx={{cursor:"pointer",fontSize: "25px",
+                                    <Typography  sx={{cursor:"pointer",fontSize: "25px",
                                         marginTop: "5px",marginLeft:"40px"}}>HollyWood</Typography>
                                         </Stack>
                             </Tabs>

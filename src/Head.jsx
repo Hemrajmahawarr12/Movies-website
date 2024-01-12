@@ -15,7 +15,7 @@ import TheatersIcon from "@mui/icons-material/Theaters";
 import DraComp from "./DraComp";
 import SearchIcon from "@mui/icons-material/Search";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import poster from "../src/Images/moviePoster.jpg";
+import poster from "../src/Images/movieposternew.webp";
 // import { Link } from "@mui/icons-material";
 
 // import MovieContainer from "../src/Component/MovieContainer";
@@ -93,9 +93,9 @@ export const Head = ()=> {
                     )}
                 </Toolbar>
             </AppBar>
-            <Box sx={{height:"100vh", width:"100%"  ,overflow:"hidden",backgroundColor:"black"}}>
+            <Box sx={{height:"100vh", width:"100%"  ,overflow:"hidden",backgroundColor:"#454545"}}>
                 
-                <img style={{height:"100%", width:"100%", opacity:0.6}} src={poster} alt="poster"></img>
+                <img style={{height:"100%", width:"100%", opacity:0.6}} src={poster}></img>
             </Box>
             
         </>
