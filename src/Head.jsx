@@ -32,6 +32,9 @@ export const Head = ()=> {
     const handleHolly = ()=> {
         navigate("/hollywood")
     }
+    const handlefav = ()=> {
+        navigate("/favourite")
+    }
    
     console.log(IsMatch);
     return (
@@ -86,7 +89,7 @@ export const Head = ()=> {
                             </Stack>
                             <Stack spacing={2} direction={"row"} justifyContent={"center"} alignItems={"center"} >
                                 
-                                    <IconButton><FavoriteIcon sx={{color:"red"}}  /> <Typography variant="h5">Favourite
+                                    <IconButton onClick={handlefav}><FavoriteIcon sx={{color:"red"}}  /> <Typography variant="h5">Favourite
                                 </Typography></IconButton>
                             </Stack>
                         </>

@@ -1,46 +1,31 @@
-import { Container, Stack, Typography, Box, IconButton, BottomNavigation, BottomNavigationAction } from '@mui/material'
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import React, { useState } from 'react';
-import moviedata from './StaticData';
-import DownloadIcon from '@mui/icons-material/Download';
-import MovieIcon from '@mui/icons-material/Movie';
-// import HomeIcon from '@mui/icons-material/Movie';
+// import { Container, Stack, Typography, Box, IconButton, BottomNavigation, BottomNavigationAction } from '@mui/material'
+// import FavoriteIcon from "@mui/icons-material/Favorite";
+// import React, { useState } from 'react';
+// import moviedata from './StaticData';
+// import DownloadIcon from '@mui/icons-material/Download';
+// import MovieIcon from '@mui/icons-material/Movie';
+// // import HomeIcon from '@mui/icons-material/Movie';
 
 
 
 
-function Movie(){
-
-
-  
-
-}
-
-// function Movie() {
+// function Movie(){
 //   // const [state1, setState1] = useState("red");
 //   // const [state2, setState2] = useState();
 //   // const [iconColor, setIconColor] = useState('primary');
 //   // const [color, setColor] = useState(false)
 //   // const [key, setKey] = useState(null);  
-//   // const [favoriteColors, setFavoriteColors] = useState(Array(moviedata.length).fill(false));
-//   const [favoriteColors, setFavoriteColors] = useState();
+//   const [favoriteColors, setFavoriteColors] = useState(Array(moviedata.length).fill(false));
+// //   const [favoriteColors, setFavoriteColors] = useState();
 //   // console.log(Array(moviedata.length).fill(false))
 
-//   console.log(moviedata)
-//   // function handleClick(){
-//   //   if(iconColor === 'primary') {
-//   //     setIconColor('red');
-//   //   } else {
-//   //     setIconColor('primary');
-//   //   };
-//   // }
-//   // const toggleFavorite = (index) => {
-//   //   const newColors = [...favoriteColors];
-//   //   newColors[index] = !newColors[index];
-//   //   setFavoriteColors(newColors);
-//   //   index != [...favoriteColors]
-//   //   return setFavoriteColors(index)
-//   // }
+//   const toggleFavorite = (index) => {
+//     const newColors = [...favoriteColors];
+//     newColors[index] = !newColors[index];
+//     setFavoriteColors(newColors);
+//     // index != [...favoriteColors]
+//     return setFavoriteColors(index)
+//   }
 
 
 //   // const toggleFavorite =(id) =>{
@@ -97,11 +82,8 @@ function Movie(){
 
 //                   <BottomNavigationAction
 //                     label='favorite'
-//                     icon={<FavoriteIcon sx={{
-//                       //  color: favoriteColors[i] ? 'red' : ''
-//     }} />
-//   }
-//                     // onClick={() => toggleFavorite(i)}
+//                     icon={<FavoriteIcon sx={{color: favoriteColors[i] ? 'red' : ''}} />}
+//                      onClick={() => toggleFavorite(i)}
 //                   ></BottomNavigationAction>
 //                   <BottomNavigationAction label='Download' icon={<DownloadIcon />} onClick={handleRedirect}> </BottomNavigationAction>
 //                 </BottomNavigation>
@@ -116,4 +98,5 @@ function Movie(){
 //   )
 // }
 
-export default Movie;
+
+// export default Movie;
