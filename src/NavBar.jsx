@@ -18,16 +18,20 @@ import poster from "../src/Images/moviePoster.jpg";
 import { useNavigate } from "react-router-dom";
 const NavBar = () => {
     
-    // const navigate = useNavigate;
+    const navigate = useNavigate();
     const [value, setValue] = useState();
     const theme = useTheme();
     const IsMatch = useMediaQuery(theme.breakpoints.down("md"));
-    // const handleBolly = ()=> {
-    //     navigate("/bollywood")
-    // }
-    // const handleHolly = ()=> {
-    //     navigate("/hollywood")
-    // }
+    const handleBolly = ()=> {
+        navigate("/bollywood")
+    }
+    const handleHolly = ()=> {
+        navigate("/hollywood")
+    }
+    const handlefav = ()=> {
+        navigate("/favourite")
+    }
+    
   return (
     <div>
         
@@ -70,18 +74,18 @@ const NavBar = () => {
                                     }}
                                     />
                                     <Stack flexDirection={"row"}>
-                                    <Typography  sx={{cursor:"pointer",marginLeft:"70px",fontSize: "25px",
+                                    <Typography onClick={handleBolly} sx={{cursor:"pointer",marginLeft:"70px",fontSize: "25px",
                                         marginTop: "5px"}}>BollyWood</Typography>
                                         
 
-                                    <Typography  sx={{cursor:"pointer",fontSize: "25px",
+                                    <Typography onClick={handleHolly} sx={{cursor:"pointer",fontSize: "25px",
                                         marginTop: "5px",marginLeft:"40px"}}>HollyWood</Typography>
                                         </Stack>
                             </Tabs>
                             </Stack>
                             <Stack spacing={2} direction={"row"} justifyContent={"center"} alignItems={"center"} >
                                 
-                                    <IconButton><FavoriteIcon sx={{color:"red"}}  /> <Typography variant="h5">Favourite
+                                    <IconButton onClick={handlefav}><FavoriteIcon sx={{color:"red"}}  /> <Typography variant="h5">Favourite
                                 </Typography></IconButton>
                             </Stack>
                         </>
