@@ -1,70 +1,65 @@
 import React, { useEffect, useState } from "react";
 import { Stack, Typography, Box, Container, Pagination, BottomNavigationAction, BottomNavigation } from '@mui/material'
-import photo from '../src/Images/bImage.jpg'
 import MovieIcon from '@mui/icons-material/Movie';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from "react-redux";
-import { addFav, removeFav } from "./FavSlice";
-import { ConnectingAirportsOutlined } from "@mui/icons-material";
+import { addBollyFav,bollyfav,removeBollywoodFav, removebollyfav } from "./FavSlice";
 
 function BollyWood() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 2;
-const favState = useSelector((state) => state.fav);
   const [favoriteStatus, setFavoriteStatus] = useState([]);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
-  const fav = JSON.parse(localStorage.getItem("Favourite"))
-  console.log(fav)
+  const newbolly = useSelector((state)=>state.fav.bollyfav)
+
+  useEffect(()=>{
+  setFavoriteStatus(newbolly)
+  },[])
+
   
-const state=useSelector((state) => {
-  // console.log("🚀 ~ BollyWood ~ state:", state)
-  return state
-})
+ const addFormData = useSelector((state) => state.fav.bollyWood)
+ console.log("addFormData",addFormData);
+
+
+
   useEffect(() => {
     fetch('https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies')
       .then((result) => result.json())
       .then((resp) => {
-
         setData(resp);
-        
-        // setFavoriteStatus(Array(resp.length).fill(''));
       });
     }, []);
     
-    const handleFavoriteClick = (item) => {  
+    const handleFavoriteClick = (item) => { 
       const newFavoriteStatus = [...favoriteStatus];
-      if(!newFavoriteStatus.includes(item.Title)){
-        newFavoriteStatus.push(item.Title);
-        dispatch(addFav(item))  
+      const present = newFavoriteStatus.find((obj) => obj.Title === item.Title);
+      console.log("item", item, !present);
+      if(!present){
+        newFavoriteStatus.push(item);
+        console.log("item in fun",newFavoriteStatus)  
+        dispatch(bollyfav(newFavoriteStatus))
       }else{
-        const index = newFavoriteStatus.indexOf(item.Title);
+        const index = newFavoriteStatus.findIndex((favItem) => favItem.Title === item.Title);
         newFavoriteStatus.splice(index, 1)
-        dispatch(removeFav(item))
+        dispatch(removebollyfav(newFavoriteStatus))
       }
-      localStorage.setItem("Favourite",JSON.stringify(newFavoriteStatus))
-
       setFavoriteStatus(newFavoriteStatus);
-      
-  };
-
-
+      };
+    
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const list = [...addFormData]
+  const listData = list.reverse();
+  const allItems = [...listData,...data]
+  const currentItems = allItems.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
-
-  useEffect(()=> {
-    const wishL = JSON.parse(localStorage.getItem("Favourite"))
-    console.log("karan",wishL)
-    setFavoriteStatus(wishL)
-  },[])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-around", background: "linear-gradient(pink, transparent),linear-gradient(to top left, lime, transparent),linear-gradient(to top right, blue, transparent)", height: "100%" }}>
@@ -89,9 +84,9 @@ const state=useSelector((state) => {
                       label='Watch Now'
                       icon={<MovieIcon />}
                     ></BottomNavigationAction>
-                     <BottomNavigationAction
+                    <BottomNavigationAction
                       label='favorite'
-                      icon={<FavoriteIcon sx={{ color: favoriteStatus?.includes(item.Title) ? 'red' : '' }} />} onClick={() => { handleFavoriteClick(item); }}
+                      icon={<FavoriteIcon sx={{ color: favoriteStatus.some(favItem => favItem.Title === item.Title) ? 'red' : '' }} />} onClick={() => handleFavoriteClick(item)}
                     ></BottomNavigationAction>
                     <BottomNavigationAction label='Download' icon={<DownloadIcon />}></BottomNavigationAction>
                   </BottomNavigation>
@@ -102,7 +97,7 @@ const state=useSelector((state) => {
         </div>
         <Box sx={{ justifyContent: "center", display: "flex" }}>
           <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Pagination count={Math.ceil(data.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
+            <Pagination count={Math.ceil(allItems.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
           </Stack>
         </Box>
       </div>

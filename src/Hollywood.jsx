@@ -4,15 +4,23 @@ import MovieIcon from '@mui/icons-material/Movie';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from 'react-redux';
-import { addFav } from './FavSlice';
+import { hollyfav, removehollyFav} from './FavSlice';
 
 function Hollywood() {
   const [guest, setGuest] = useState([]);
   const [currentItem, setCurrentItem] = useState(1);
   const itemPerPage = 2;
   const [favoriteColors, setFavoriteColors] = useState([]);
-  console.log('huhbff====>',favoriteColors);
+  const dispatch = useDispatch();
 
+  const newbolly = useSelector((state)=>state.fav.hollyfav)
+
+  useEffect(()=>{
+    setFavoriteColors(newbolly)
+  },[])
+
+  const newHollyAdd = useSelector((state)=>state.fav.hollyWood)
+     console.log("newHollyAdd",newHollyAdd);
 
   useEffect(() => {
     fetch("https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies").then((result) => {
@@ -23,43 +31,42 @@ function Hollywood() {
   },[])
 
 
+
+  const favbtn = (item)=>{
+    const newfav = [...favoriteColors];
+    const present = newfav.find((obj) => obj.Title === item.Title);
+    if(!present){
+      newfav.push(item)
+      dispatch(hollyfav(newfav))
+    }else{
+      const index = newfav.findIndex((favItem) => favItem.Title === item.Title);
+        newfav.splice(index, 1)
+      dispatch(removehollyFav(newfav))
+    }
+  setFavoriteColors(newfav)
+}
+
+
   const lastItem = currentItem * itemPerPage;
   const firstItem = lastItem - itemPerPage;
-  const data = guest.slice(firstItem, lastItem);
-  const dispatch = useDispatch();
-
-  const state=useSelector((state) => {
-    console.log("🚀 ~ BollyWood ~ state:", state)
-    return state
-  })
-
-  useEffect(()=>{
-      let list =JSON.parse(localStorage.getItem("HollyFavourite"))
-      setFavoriteColors(list)
-  },[])
-
-
+  const lis = [...newHollyAdd]
+  const newlis = lis.reverse();
+  const newHollyList = [...newlis,...guest]
+  const data = newHollyList.slice(firstItem, lastItem);
+  
 
   const handlePage = (event, value) => {
     setCurrentItem(value)
-
   }
 
 
-  const favbtn= (item)=>{
-    console.log(item.Title);
-    const newfav = [...favoriteColors];
-    if(!newfav.includes(item.Title)){
-      newfav.push(item.Title)
-    }else{
-      const index = newfav.indexOf(item.Title);
-      newfav.splice(index, 1)
-    }
-    localStorage.setItem("HollyFavourite",JSON.stringify(newfav))
-  setFavoriteColors(newfav)
-  dispatch(addFav(item))
-}
-
+ 
+  // useEffect(()=> {
+  //   const wishL = JSON.parse(localStorage.getItem("HollyFavourite")) || [];
+  //   console.log("karan",wishL)
+  //   setFavoriteColors(wishL)
+  // },[])
+  
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: "wrap", justifyContent: "space-around", background: "linear-gradient(pink, transparent),linear-gradient(to top left, lime, transparent),linear-gradient(to top right, blue, transparent)", height: "100%" }}>
@@ -74,8 +81,12 @@ function Hollywood() {
                 <img src={item.Poster} style={{ height: "280px", width: "100%" }} alt={item.Title} />
               </Box>
               <Typography sx={{ fontSize: "30px" }}>{item.Title}</Typography>
-              <Typography>{item.Year}</Typography>
-              <Typography>{item.Runtime}</Typography>
+              <Stack mt={4} spacing={0.5}>
+                    <Stack direction={"row"} justifyContent={"space-between"} padding={"0px 20px"}>
+                      <Typography>{item.Year}</Typography>
+                      <Typography>{item.Runtime}</Typography>
+                    </Stack>
+                  </Stack>
               <BottomNavigation sx={{ position: "absolute", bottom: 0, width: "100%" }}>
 
                         <BottomNavigationAction
@@ -85,7 +96,8 @@ function Hollywood() {
 
                         <BottomNavigationAction
                           label='favorite'
-                          icon={<FavoriteIcon sx={{color: favoriteColors.includes(item.Title) ? 'red':''}}/>} onClick={()=>favbtn(item)}></BottomNavigationAction>
+                          icon={<FavoriteIcon sx={{ color: favoriteColors.some(favItem => favItem.Title === item.Title) ? 'red' : '' }} />} onClick={() => favbtn(item)}
+                    ></BottomNavigationAction>
                         <BottomNavigationAction label='Download' icon={<DownloadIcon />}></BottomNavigationAction>
                       </BottomNavigation>
               
@@ -98,7 +110,7 @@ function Hollywood() {
     </div>
     <Box sx={{ justifyContent: "center", display: "flex" }}>
           <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Pagination count={Math.ceil(guest.length / itemPerPage)} page={currentItem} onChange={handlePage}/>
+            <Pagination count={Math.ceil(newHollyList.length / itemPerPage)} page={currentItem} onChange={handlePage}/>
           </Stack>
         </Box>
 
@@ -108,4 +120,4 @@ function Hollywood() {
   )
 }
 
-export default Hollywood
+export default Hollywood;
