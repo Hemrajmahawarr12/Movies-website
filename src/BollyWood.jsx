@@ -4,7 +4,10 @@ import MovieIcon from '@mui/icons-material/Movie';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from "react-redux";
-import { addBollyFav,bollyfav,removeBollywoodFav, removebollyfav } from "./FavSlice";
+import { addBollyFav,addBollywoddInput,bollyfav,edit,editBolly,removeBollywoodFav, removebollyCart, removebollyfav } from "./FavSlice";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useLocation, useNavigate } from "react-router-dom";
 
 function BollyWood() {
   const [data, setData] = useState([]);
@@ -12,6 +15,9 @@ function BollyWood() {
   const itemsPerPage = 2;
   const [favoriteStatus, setFavoriteStatus] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
 
   const newbolly = useSelector((state)=>state.fav.bollyfav)
 
@@ -29,17 +35,17 @@ function BollyWood() {
     fetch('https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies')
       .then((result) => result.json())
       .then((resp) => {
-        setData(resp);
+      const newdata=  resp?.map((data,index)=> ({...data, id:index+1}))
+        console.log("🚀 ~ .then ~ n̥ewdata:", newdata)
+        setData(newdata);
       });
     }, []);
     
     const handleFavoriteClick = (item) => { 
       const newFavoriteStatus = [...favoriteStatus];
       const present = newFavoriteStatus.find((obj) => obj.Title === item.Title);
-      console.log("item", item, !present);
       if(!present){
-        newFavoriteStatus.push(item);
-        console.log("item in fun",newFavoriteStatus)  
+        newFavoriteStatus.push(item); 
         dispatch(bollyfav(newFavoriteStatus))
       }else{
         const index = newFavoriteStatus.findIndex((favItem) => favItem.Title === item.Title);
@@ -61,6 +67,23 @@ function BollyWood() {
     setCurrentPage(value);
   };
 
+
+  const handleEdit = (item,index) =>{
+    if(data.findIndex((pro)=> pro.Title === item.Title)){
+      // console.log("hi")
+      navigate("/input", { state: { movieData: item }});
+      dispatch(edit(true));
+    }else{
+      alert("you can not edit api data")
+    }
+  };
+
+
+  const handleDelete = (index) =>{
+    console.log("indexidddddd",index.id);
+      dispatch(removebollyCart(index))
+      dispatch(removebollyfav(index))
+  }
   return (
     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-around", background: "linear-gradient(pink, transparent),linear-gradient(to top left, lime, transparent),linear-gradient(to top right, blue, transparent)", height: "100%" }}>
       <div style={{ border: "2px solid black", padding: "50px", height: "100%", width: "1000px", marginTop: "120px", marginBottom: "50px" }}>
@@ -79,16 +102,18 @@ function BollyWood() {
                       <Typography>{item.Runtime}</Typography>
                     </Stack>
                   </Stack>
+                
                   <BottomNavigation sx={{ position: "absolute", bottom: 0, width: "100%" }}>
                     <BottomNavigationAction
                       label='Watch Now'
-                      icon={<MovieIcon />}
+                      icon={<EditIcon onClick={()=>handleEdit(item,index)}/>}
                     ></BottomNavigationAction>
                     <BottomNavigationAction
                       label='favorite'
                       icon={<FavoriteIcon sx={{ color: favoriteStatus.some(favItem => favItem.Title === item.Title) ? 'red' : '' }} />} onClick={() => handleFavoriteClick(item)}
                     ></BottomNavigationAction>
-                    <BottomNavigationAction label='Download' icon={<DownloadIcon />}></BottomNavigationAction>
+                     <BottomNavigationAction label='Download' icon={<DeleteIcon onClick={()=>handleDelete(item)}/>}></BottomNavigationAction>
+                    
                   </BottomNavigation>
                 </Box>
               </Stack>

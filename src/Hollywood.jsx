@@ -4,7 +4,13 @@ import MovieIcon from '@mui/icons-material/Movie';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import DownloadIcon from '@mui/icons-material/Download';
 import { useDispatch, useSelector } from 'react-redux';
-import { hollyfav, removehollyFav} from './FavSlice';
+import { edit, hollyfav, removehollyCart, removehollyFav} from './FavSlice';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+
+
 
 function Hollywood() {
   const [guest, setGuest] = useState([]);
@@ -12,6 +18,7 @@ function Hollywood() {
   const itemPerPage = 2;
   const [favoriteColors, setFavoriteColors] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const newbolly = useSelector((state)=>state.fav.hollyfav)
 
@@ -22,13 +29,15 @@ function Hollywood() {
   const newHollyAdd = useSelector((state)=>state.fav.hollyWood)
      console.log("newHollyAdd",newHollyAdd);
 
-  useEffect(() => {
-    fetch("https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies").then((result) => {
-      result.json().then((resp) => {
-        setGuest(resp)
-      })
-    })
-  },[])
+     useEffect(() => {
+      fetch('https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/movies')
+        .then((result) => result.json())
+        .then((resp) => {
+        const newdata=  resp?.map((data,index)=> ({...data, id:index+1}))
+          console.log("🚀 ~ .then ~ n̥ewdata:", newdata)
+          setGuest(newdata);
+        });
+      }, []);
 
 
 
@@ -60,13 +69,22 @@ function Hollywood() {
   }
 
 
- 
-  // useEffect(()=> {
-  //   const wishL = JSON.parse(localStorage.getItem("HollyFavourite")) || [];
-  //   console.log("karan",wishL)
-  //   setFavoriteColors(wishL)
-  // },[])
-  
+  const handleEdit = (item,index) =>{
+    if(guest.findIndex((pro) => pro.Title === item.Title)){
+    navigate("/input", { state: { movieData: item }});
+    dispatch(edit(true));
+    }else{
+      alert("you can not edit Api Data")
+    }
+  }
+
+
+
+  const handleDelete = (item) => {
+    dispatch(removehollyCart(item))
+    dispatch(removehollyFav(item))
+  }
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: "wrap", justifyContent: "space-around", background: "linear-gradient(pink, transparent),linear-gradient(to top left, lime, transparent),linear-gradient(to top right, blue, transparent)", height: "100%" }}>
@@ -91,14 +109,14 @@ function Hollywood() {
 
                         <BottomNavigationAction
                           label='Watch Now'
-                          icon={<MovieIcon />}
+                          icon={<EditIcon onClick={()=>handleEdit(item,index)}/>}
                         ></BottomNavigationAction>
 
                         <BottomNavigationAction
                           label='favorite'
                           icon={<FavoriteIcon sx={{ color: favoriteColors.some(favItem => favItem.Title === item.Title) ? 'red' : '' }} />} onClick={() => favbtn(item)}
                     ></BottomNavigationAction>
-                        <BottomNavigationAction label='Download' icon={<DownloadIcon />}></BottomNavigationAction>
+                        <BottomNavigationAction label='Download' icon={<DeleteIcon onClick={()=>handleDelete(item)} />}></BottomNavigationAction>
                       </BottomNavigation>
               
               
