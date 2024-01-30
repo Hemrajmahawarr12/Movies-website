@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch ,useSelector} from 'react-redux'
 import { Box, Button, Container, Stack, Typography } from '@mui/material';
-import { bollyfav, removeBollywoodFav, removeFav, removeHollywoodFav, removebollyfav, removehollyFav, removehollyfav } from './FavSlice';
+import {removebollyfav, removehollyFav} from './FavSlice';
 import { json } from 'react-router-dom';
 
 
