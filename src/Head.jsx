@@ -70,13 +70,7 @@ export const Head = ()=> {
                                     MoviesWorld
                                 </Typography>
 
-                                <SearchIcon
-                                    sx={{
-                                        fontSize: "25px",
-                                        marginTop: "10px",
-                                        marginLeft: "40px",
-                                    }}
-                                    />
+
                                     <Stack flexDirection={"row"}>
                                     <Typography onClick={handleBolly} sx={{cursor:"pointer",marginLeft:"70px",fontSize: "25px",
                                         marginTop: "5px"}}>BollyWood</Typography>
@@ -85,6 +79,14 @@ export const Head = ()=> {
                                     <Typography onClick={handleHolly} sx={{cursor:"pointer",fontSize: "25px",
                                         marginTop: "5px",marginLeft:"40px"}}>HollyWood</Typography>
                                         </Stack>
+                                        <SearchIcon
+                                    sx={{
+                                        fontSize: "25px",
+                                        marginTop: "10px",
+                                        marginLeft: "60px",
+                                        cursor:"pointer"
+                                    }}
+                                    />
                             </Tabs>
                             </Stack>
                             <Stack spacing={2} direction={"row"} justifyContent={"center"} alignItems={"center"} >

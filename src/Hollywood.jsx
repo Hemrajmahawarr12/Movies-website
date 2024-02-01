@@ -20,6 +20,9 @@ function Hollywood() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+  const search = useSelector((state)=>state.fav.Search.toString())
+
   const newbolly = useSelector((state)=>state.fav.hollyfav)
 
   useEffect(()=>{
@@ -61,8 +64,8 @@ function Hollywood() {
   const lis = [...newHollyAdd]
   const newlis = lis.reverse();
   const newHollyList = [...newlis,...guest]
-  const data = newHollyList.slice(firstItem, lastItem);
-  
+  const data = newHollyList.filter((item) =>item.Title.toLowerCase().includes(search)).slice(firstItem,lastItem);
+  console.log("datatatatatatata",data);
 
   const handlePage = (event, value) => {
     setCurrentItem(value)
@@ -70,7 +73,8 @@ function Hollywood() {
 
 
   const handleEdit = (item,index) =>{
-    if(guest.findIndex((pro) => pro.Title === item.Title)){
+    const findData = guest.filter((obj)=>obj.Title===item.Title)
+    if(!findData.length > 0){
     navigate("/input", { state: { movieData: item }});
     dispatch(edit(true));
     }else{
@@ -88,8 +92,12 @@ function Hollywood() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: "wrap", justifyContent: "space-around", background: "linear-gradient(pink, transparent),linear-gradient(to top left, lime, transparent),linear-gradient(to top right, blue, transparent)", height: "100%" }}>
-       <div style={{border: "2px solid black", padding: "50px", height: "100%", width: "1000px",  marginTop: "120px", marginBottom: "50px"}}>
-        <div style={{display:"flex",alignItems:"center"}}>
+      {
+        data.length===0 ? (<Typography sx={{marginTop:"100px"}}>No result found</Typography>) : 
+        (
+         <>
+          <div style={{border: "2px solid black", padding: "50px", height: "100%", width: "1000px",  marginTop: "120px", marginBottom: "50px"}}>
+        <div style={{display:"flex",alignItems:"center"}}> 
       {
         data.map((item,index) => (
           <Container >
@@ -134,6 +142,10 @@ function Hollywood() {
 
 
     </div>
+         </>
+
+        )
+      }
     </div>
   )
 }

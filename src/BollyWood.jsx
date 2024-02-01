@@ -19,6 +19,10 @@ function BollyWood() {
   const location = useLocation();
 
 
+  const search = useSelector((state) => state.fav.Search.toString());
+    console.log(search);
+
+
   const newbolly = useSelector((state)=>state.fav.bollyfav)
 
   useEffect(()=>{
@@ -28,6 +32,12 @@ function BollyWood() {
   
  const addFormData = useSelector((state) => state.fav.bollyWood)
  console.log("addFormData",addFormData);
+
+
+//  useEffect(()=>{
+//   const FilterData = allItems.
+
+//  },[])
 
 
 
@@ -61,16 +71,15 @@ function BollyWood() {
   const list = [...addFormData]
   const listData = list.reverse();
   const allItems = [...listData,...data]
-  const currentItems = allItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = allItems.filter((item) =>item.Title.toLowerCase().includes(search.toLowerCase())).slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-
   const handleEdit = (item,index) =>{
-    if(data.findIndex((pro)=> pro.Title === item.Title)){
-      // console.log("hi")
+    const filterData = data.filter((obj)=> obj.Title === item.Title);   
+    if(!filterData.length > 0){
       navigate("/input", { state: { movieData: item }});
       dispatch(edit(true));
     }else{
@@ -86,20 +95,24 @@ function BollyWood() {
   }
   return (
     <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: "space-around", background: "linear-gradient(pink, transparent),linear-gradient(to top left, lime, transparent),linear-gradient(to top right, blue, transparent)", height: "100%" }}>
-      <div style={{ border: "2px solid black", padding: "50px", height: "100%", width: "1000px", marginTop: "120px", marginBottom: "50px" }}>
+      {
+        currentItems.length===0 ? (<Typography sx={{marginTop:"100px"}}>No result found</Typography>):
+        (
+          <>
+          <div style={{ border: "2px solid black", padding: "50px", height: "100%", width: "1000px", marginTop: "120px", marginBottom: "50px" }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           {currentItems.map((item, index) => (
             <Container key={index}>
               <Stack sx={{ display: "flex", alignItems: "center" }}>
-                <Box sx={{ border: "2px solid black", height: "600px", width: "400px", backgroundColor: "#ACDDDE", position: "relative", overflow: "hidden", margin: "20px" }}>
+                <Box sx={{ border: "2px solid black", height: "500px", width: "400px", backgroundColor: "#ACDDDE", position: "relative", overflow: "hidden", margin: "20px" }}>
                   <Box>
                     <img src={item.Poster} style={{ height: "280px", width: "100%" }} alt={item.Title} />
                   </Box>
-                  <Typography sx={{ fontSize: "30px" }}>{item.Title}</Typography>
+                  <Typography sx={{ fontSize: "35px" }}>{item.Title}</Typography>
                   <Stack mt={4} spacing={0.5}>
                     <Stack direction={"row"} justifyContent={"space-between"} padding={"0px 20px"}>
-                      <Typography>{item.Year}</Typography>
-                      <Typography>{item.Runtime}</Typography>
+                      <Typography sx={{ fontSize: "20px" }}>{item.Year}</Typography>
+                      <Typography sx={{ fontSize: "20px" }}>{item.Runtime}</Typography>
                     </Stack>
                   </Stack>
                 
@@ -120,12 +133,22 @@ function BollyWood() {
             </Container>
           ))}
         </div>
-        <Box sx={{ justifyContent: "center", display: "flex" }}>
+        {
+          data.length > itemsPerPage && data.length>0 &&(
+          <>
+           <Box sx={{ justifyContent: "center", display: "flex" }}>
           <Stack sx={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Pagination count={Math.ceil(allItems.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
+           <Pagination count={Math.ceil(allItems.length / itemsPerPage)} page={currentPage} onChange={handlePageChange} />
           </Stack>
         </Box>
+        </>
+          )
+        }
+       
       </div>
+          </>
+        )
+      }
     </div>
   );
 }

@@ -15,10 +15,21 @@ const MovieInput = () => {
   const dispatch=useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const[toggle, setToggle ] = useState(false);  
+  const[toggle, setToggle ] = useState(false); 
+  
+
+  const isValidPosterURL = (url) => {
+    return ( url.startsWith('https://'),
+    url.startsWith('data')
+    )
+  };
+
+  
+
 
   const newmovie = useSelector((state) => state.fav.bollyWood)
   console.log("sdfghjkertyui",newmovie);
+  // const manydata = [...newmovie,new]
 
 
   const { state } = location;
@@ -55,6 +66,10 @@ const MovieInput = () => {
      
     };
   
+    if (!isValidPosterURL(Poster)) {
+      alert('Please enter a valid Poster URL starting with "https://"');
+      return;
+    }
     
     if (newAdd === "/bollywood") {
       dispatch(addBollywoddInput(OnlineData));
@@ -63,6 +78,7 @@ const MovieInput = () => {
     } else{
       dispatch(addHollywoddInput(OnlineData));
       navigate("/hollywood")
+
     }
 
 
@@ -89,6 +105,12 @@ const MovieInput = () => {
     };
   
     
+    if (!isValidPosterURL(Poster)) {
+      alert('Please enter a valid Poster URL starting with "https://"');
+      return;
+    }
+
+
     if (newAdd === "/bollywood") {
       dispatch(addBollywoddInput(OnlineData));
       navigate("/bollywood")
@@ -120,7 +142,7 @@ const MovieInput = () => {
     setRuntime('');
   }
    
-  const isItParsent = newmovie.find((item)=> item.id === id);
+  const isItParsent = newmovie.find((item)=> item.id === id)
 
 
   return (
