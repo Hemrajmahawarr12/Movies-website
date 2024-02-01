@@ -15,7 +15,8 @@ const favSlice = createSlice({
         addBollywoddInput: [],
         addHollywoddInput: [],
         editBolly: [],
-        editbutton:false
+        editbutton:false,
+        Search:[]
     },
     reducers: {
         bollyfav(state, action) {
@@ -96,6 +97,10 @@ const favSlice = createSlice({
             console.log("bollyedit-=========",index);
             // state.editBolly = action.payload;
         },
+        searchSlice(state,action){
+            // console.log(action);
+            state.Search=action.payload;
+        },
         ClearAllUser(state, action) {
             // console.log(state,action)
             return [];
@@ -105,4 +110,4 @@ const favSlice = createSlice({
 
 
 export default favSlice;
-export const { addPathname,removehollyCart,bollyedit, addBollywoddInput, addHollywoddInput, bollyfav, hollyfav, removebollyfav, removehollyFav, removebollyCart, editBolly,edit} = favSlice.actions;
+export const {searchSlice, addPathname,removehollyCart,bollyedit, addBollywoddInput, addHollywoddInput, bollyfav, hollyfav, removebollyfav, removehollyFav, removebollyCart, editBolly,edit,} = favSlice.actions;
